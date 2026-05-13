@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@layer theme, base, components, utilities;
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+/*@font-face {
+  font-family: 'Parisienne';
+  src: url('./assets/Parisienne-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}*/
+
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: 'Verdana', sans-serif;
+  background-color: #f5f3ef;
+  color:#18181b;
+}
+
+a {
+    font-family: 'Verdana', sans-serif;
+}
+
+.card {
+  background-color: #fff;
+}
+
+.accent {
+  color: #7c9a92;
+}
