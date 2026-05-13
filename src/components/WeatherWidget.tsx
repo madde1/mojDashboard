@@ -117,7 +117,7 @@ export function WeatherWidget() {
 
   if (loading) {
     return (
-      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 max-h-fit ">
         <div className="animate-pulse">
           <div className="h-4 w-24 rounded bg-[#f5f3ef]" />
 
@@ -131,7 +131,7 @@ export function WeatherWidget() {
 
   if (!weather) {
     return (
-      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5">
+      <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 max-h-fit">
         <p className="text-zinc-500">
           Kunde inte hämta vädret.
         </p>
@@ -141,7 +141,7 @@ export function WeatherWidget() {
 
   return (
     <section
-      className="flex flex-col rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 ">
+      className="flex flex-col rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 max-h-fit">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm text-[#7c9a92]">
