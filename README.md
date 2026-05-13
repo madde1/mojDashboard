@@ -3,6 +3,7 @@
 # todayWidget
   Functions to add 
   1. Full day activites. 
+  2. Empty state
   UX improvments
   1. add swipe delete on mobile
 # WeekPlanWidget/CalanderWidget

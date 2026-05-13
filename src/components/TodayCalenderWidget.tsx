@@ -8,7 +8,7 @@ type Event = {
 };
 
 export function TodayWidget() {
-  
+  const [allDay, setAllDay] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [time, setTime] = useState("");
@@ -29,19 +29,22 @@ useEffect(() => {
 
 
 function addEvent() {
-  if (!title || !time) return;
+if (!title || (!allDay && !time)) return;
 
   const newEvent = {
     id: Date.now(),
     title,
     time,
+    allDay,
   };
 
   setEvents((prev) => [...prev, newEvent]);
 
   setTitle("");
   setTime("");
+  setAllDay(false);
   setIsOpen(false);
+
 }
 
 function deleteEvent(id: number) {
@@ -84,13 +87,13 @@ const sortedEvents = [...events].sort(
             className=" flex items-center justify-between rounded-2xl bg-stone-50 px-4 py-3">
               <div className="flex flex-row gap-2 items-center">
             <span className="text-sm text-[#7c9a92]">
-              {event.time}
+                {event.allDay ? "Heldag" : event.time}
             </span>
 
             <span className="font-medium text-zinc-700 capitalize">
               {event.title}
             </span>
-</div>
+              </div>
               <button
               onClick={() => deleteEvent(event.id)}
               className="rounded-lg p-1 text-zinc-400 transition-colors hover:bg-stone-200 hover:text-zinc-600 cursor-pointer ">
@@ -114,6 +117,19 @@ const sortedEvents = [...events].sort(
             <div className="mt-6 space-y-4">
               <input type="text" placeholder="Titel" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full rounded-2xl bg-stone-100 px-4 py-3 outline-none" />
               <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="w-full rounded-2xl bg-stone-100 px-4 py-3 outline-none" />
+             <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={allDay}
+                onChange={(e) =>
+                  setAllDay(e.target.checked)
+                }
+              />
+
+              <span className="text-sm text-zinc-700">
+                Heldag
+              </span>
+            </label>
               <div className="flex justify-end gap-4">
                 <button onClick={() => setIsOpen(false)} className="cursor-pointer px-4 py-2 text-sm text-gray-500 bg-stone-100 rounded-full">Avbryt</button>
                 <button onClick={addEvent} className="cursor-pointer rounded-2xl bg-[#7c9a92] px-4 py-2 text-sm text-white">Lägg till</button>
