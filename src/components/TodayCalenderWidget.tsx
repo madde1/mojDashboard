@@ -12,6 +12,7 @@ export function TodayWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [time, setTime] = useState("");
+  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
 
   const [events, setEvents] = useState<Event[]>(() => {
     const savedEvents = localStorage.getItem("events");
@@ -45,6 +46,50 @@ if (!title || (!allDay && !time)) return;
   setAllDay(false);
   setIsOpen(false);
 
+}
+
+function handleEdit(event: Event) {
+  setEditingEvent(event);
+
+  setTitle(event.title);
+
+  setTime(event.time);
+
+  setAllDay(event.allDay || false);
+
+  setIsOpen(true);
+}
+
+function updateEvent() {
+  if (!title || (!allDay && !time))
+    return;
+
+  setEvents((prev) =>
+    prev.map((event) =>
+      event.id === editingEvent?.id
+        ? {
+            ...event,
+            title,
+            time,
+            allDay,
+          }
+        : event
+    )
+  );
+
+  resetForm();
+}
+
+function resetForm() {
+  setTitle("");
+
+  setTime("");
+
+  setAllDay(false);
+
+  setEditingEvent(null);
+
+  setIsOpen(false);
 }
 
 function deleteEvent(id: number) {
@@ -84,7 +129,8 @@ const sortedEvents = [...events].sort(
         {sortedEvents.map((event) => (
           <div
             key={event.id}
-            className=" flex items-center justify-between rounded-2xl bg-stone-50 px-4 py-3">
+            onClick={() => handleEdit(event)}
+            className="cursor-pointer flex items-center justify-between rounded-2xl bg-stone-50 px-4 py-3">
               <div className="flex flex-row gap-2 items-center">
             <span className="text-sm text-[#7c9a92]">
                 {event.allDay ? "Heldag" : event.time}
@@ -95,7 +141,8 @@ const sortedEvents = [...events].sort(
             </span>
               </div>
               <button
-              onClick={() => deleteEvent(event.id)}
+                onClick={(e) => {e.stopPropagation();
+                deleteEvent(event.id);}}
               className="rounded-lg p-1 text-zinc-400 transition-colors hover:bg-stone-200 hover:text-zinc-600 cursor-pointer ">
               <Trash2 className="h-4 w-4" />
             </button>
@@ -132,7 +179,7 @@ const sortedEvents = [...events].sort(
             </label>
               <div className="flex justify-end gap-4">
                 <button onClick={() => setIsOpen(false)} className="cursor-pointer px-4 py-2 text-sm text-gray-500 bg-stone-100 rounded-full">Avbryt</button>
-                <button onClick={addEvent} className="cursor-pointer rounded-2xl bg-[#7c9a92] px-4 py-2 text-sm text-white">Lägg till</button>
+                <button   onClick={() => editingEvent ? updateEvent() : addEvent()} className="cursor-pointer rounded-2xl bg-[#7c9a92] px-4 py-2 text-sm text-white">{editingEvent ? "Spara" : "Lägg till"}</button>
               </div>
               </div>
               </div>
