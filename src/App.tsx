@@ -1,5 +1,5 @@
 import { GreetingCard } from './components/GreetingWidget'
-
+import { WeatherWidget } from './components/weatherWidget'
 import Footer from './components/Footer'
 
 
@@ -11,7 +11,9 @@ function App() {
     <>
       <main className="container max-w-7xl mx-auto">
         <GreetingCard />
-
+        <div className="grid gap-4 md:grid-cols-4 mt-4">
+          <WeatherWidget />
+        </div>
  
     <Footer />
     </main>

@@ -19,7 +19,7 @@ export function GreetingCard() {
   }, []);
 
   return (
-    <section className="mt-10 border border-white/10 bg-white/5 p-6 shadow-lg backdrop-blur">
+    <section className="mt-10 border border-white/10 bg-white p-6 shadow-sm ">
       <p className="text-sm text-zinc-700">
         {formattedDate}
       </p>
