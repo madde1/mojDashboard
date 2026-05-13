@@ -1,26 +1,32 @@
-import { useState } from "react";
-import { CalendarDays, Plus } from "lucide-react";
-
+import { useState, useEffect } from "react";
+import { CalendarDays, Plus, Trash2 } from "lucide-react";
+type Event = {
+  id: number;
+  time: string;
+  title: string;
+  allDay?: boolean;
+};
 
 export function TodayWidget() {
-  const [events, setEvents] = useState([
-  {
-    time: "10:00",
-    title: "BVC",
-  },
-  {
-    time: "13:00",
-    title: "Handla",
-  },
-  {
-    time: "17:30",
-    title: "Middag hos mamma",
-  },
-]);
+  
+  const [isOpen, setIsOpen] = useState(false);
+  const [title, setTitle] = useState("");
+  const [time, setTime] = useState("");
 
-const [isOpen, setIsOpen] = useState(false);
-const [title, setTitle] = useState("");
-const [time, setTime] = useState("");
+  const [events, setEvents] = useState<Event[]>(() => {
+    const savedEvents = localStorage.getItem("events");
+    return savedEvents ? JSON.parse(savedEvents) : [
+      { id: 1, title: "BVC", time: "10:00" },
+      { id: 2, title: "Förskolan APT", time: "16:00" },
+    ];
+  }
+);
+
+useEffect(() => {
+  localStorage.setItem("events", JSON.stringify(events));
+}, [events]);
+
+
 
 function addEvent() {
   if (!title || !time) return;
@@ -37,17 +43,24 @@ function addEvent() {
   setTime("");
   setIsOpen(false);
 }
+
+function deleteEvent(id: number) {
+  setEvents((prev) =>
+    prev.filter((event) => event.id !== id)
+  );
+}
+
+const sortedEvents = [...events].sort(
+  (a, b) => {
+    if (a.allDay && !b.allDay) return -1;
+    if (!a.allDay && b.allDay) return 1;
+
+    return a.time.localeCompare(b.time);
+  }
+);
   return (
     <section
-      className="
-        rounded-3xl
-        bg-white
-        p-6
-        shadow-sm
-        ring-1
-        ring-black/5
-      "
-    >
+      className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 " >
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm text-[#7c9a92]">
@@ -65,10 +78,11 @@ function addEvent() {
       </div>
 
       <div className="mt-6 space-y-4">
-        {events.map((event) => (
+        {sortedEvents.map((event) => (
           <div
             key={event.time}
             className=" flex items-center justify-between rounded-2xl bg-stone-50 px-4 py-3">
+              <div className="flex flex-row gap-2 items-center">
             <span className="text-sm text-[#7c9a92]">
               {event.time}
             </span>
@@ -76,13 +90,19 @@ function addEvent() {
             <span className="font-medium text-zinc-700 capitalize">
               {event.title}
             </span>
+</div>
+              <button
+              onClick={() => deleteEvent(event.id)}
+              className="rounded-lg p-1 text-zinc-400 transition-colors hover:bg-stone-200 hover:text-zinc-600 cursor-pointer ">
+              <Trash2 className="h-4 w-4" />
+            </button>
           </div>
         ))}
       </div>
 
       <button
         onClick={()=> setIsOpen(true)}
-        className="cursor-pointer mt-6 flex w-full items-center justify-center gap-2 rounded-2xlbg-stone-100 py-3 text-sm font-medium rounded-full text-white bg-[#7c9a92] transition-colors hover:bg-stone-200 ">
+        className="cursor-pointer mt-6 flex w-full items-center justify-center gap-2 rounded-2xlbg-stone-100 py-3 text-sm font-medium rounded-full text-white bg-[#7c9a92] transition-colors hover:bg-[#7c9a92]/70 ">
         <Plus className="h-4 w-4" />
         Lägg till aktivitet
       </button>

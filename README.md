@@ -1,5 +1,10 @@
 # ToDO:
 # Welcome/Date Widget
+# todayWidget
+  Functions to add 
+  1. Full day activites. 
+  UX improvments
+  1. add swipe delete on mobile
 # WeekPlanWidget/CalanderWidget
 # WeatherWidget 
 # MealPlanWidget
