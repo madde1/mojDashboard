@@ -2,8 +2,10 @@
 # Welcome/Date Widget
 # todayWidget
   Functions to add 
-  1. Full day activites. 
+  1. Full day activites. ✅
   2. Empty state
+  3. Edit event
+  4. Event categories / people
   UX improvments
   1. add swipe delete on mobile
 # WeekPlanWidget/CalanderWidget

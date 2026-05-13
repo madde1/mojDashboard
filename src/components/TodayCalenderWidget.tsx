@@ -83,7 +83,7 @@ const sortedEvents = [...events].sort(
       <div className="mt-6 space-y-4">
         {sortedEvents.map((event) => (
           <div
-            key={event.time}
+            key={event.id}
             className=" flex items-center justify-between rounded-2xl bg-stone-50 px-4 py-3">
               <div className="flex flex-row gap-2 items-center">
             <span className="text-sm text-[#7c9a92]">
@@ -105,7 +105,7 @@ const sortedEvents = [...events].sort(
 
       <button
         onClick={()=> setIsOpen(true)}
-        className="cursor-pointer mt-6 flex w-full items-center justify-center gap-2 rounded-2xlbg-stone-100 py-3 text-sm font-medium rounded-full text-white bg-[#7c9a92] transition-colors hover:bg-[#7c9a92]/70 ">
+        className="cursor-pointer mt-6 flex w-full items-center justify-center gap-2 py-3 text-sm font-medium rounded-full text-white bg-[#7c9a92] transition-colors hover:bg-[#7c9a92]/70 ">
         <Plus className="h-4 w-4" />
         Lägg till aktivitet
       </button>
