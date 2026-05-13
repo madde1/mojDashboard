@@ -141,7 +141,7 @@ export function WeatherWidget() {
 
   return (
     <section
-      className="flex flex-col rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 max-h-fit">
+      className="mx-5 lg:mx-0 flex flex-col rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 max-h-fit">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm text-[#7c9a92]">

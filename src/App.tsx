@@ -12,7 +12,7 @@ function App() {
     <>
       <main className="container max-w-7xl mx-auto">
         <GreetingCard />
-        <div className="grid gap-4 md:grid-cols-3 mt-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-4">
           <WeatherWidget />
           <TodayWidget />
         </div>
