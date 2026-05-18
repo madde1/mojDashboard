@@ -1,9 +1,11 @@
 import { GreetingCard } from './components/GreetingWidget'
-import { WeatherWidget } from './components/weatherWidget'
+import { WeatherWidget } from './components/WeatherWidget'
 import { TodayWidget } from './components/TodayCalenderWidget'
 import { TransitWidget } from './components/TransitWidget'
+import  ArsenalMatchWidget  from './components/ArsenalMatchWidget'
+import PremierLeagueTableWidget from './components/PremierLeagueTable'
+import PGATourWidget from './components/PGATourWidget'
 import Footer from './components/Footer'
-
 
 
 function App() {
@@ -13,10 +15,13 @@ function App() {
     <>
       <main className="container max-w-7xl mx-auto">
         <GreetingCard />
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-4 lg:mx-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mt-4 mx-5 lg:mx-4">
           <WeatherWidget />
           <TodayWidget />
           <TransitWidget />
+          <ArsenalMatchWidget />
+          <PremierLeagueTableWidget />
+          <PGATourWidget />
         </div>
  
     <Footer />

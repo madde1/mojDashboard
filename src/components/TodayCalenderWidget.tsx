@@ -107,7 +107,7 @@ const sortedEvents = [...events].sort(
   }
 );
   return (
-    <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 mx-5 lg:mx-0 " >
+    <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 " >
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm text-[#7c9a92]">
