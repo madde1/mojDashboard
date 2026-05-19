@@ -19,14 +19,26 @@ type Match = {
 };
 
 export default function ArsenalMatchWidget() {
+    const [lastMatch, setLastMatch] =
+  useState<any>(null);
   const [match, setMatch] =
     useState<Match | null>(null);
 
   const [loading, setLoading] =
     useState(true);
 
+    
+
   async function fetchMatch() {
     try {
+        const lastResponse = await fetch(
+            "http://localhost:3001/api/arsenal/last-match"
+            );
+
+            const lastData =
+            await lastResponse.json();
+
+            setLastMatch(lastData);
       const response = await fetch(
         "http://localhost:3001/api/arsenal/match"
       );
@@ -95,14 +107,61 @@ const formattedTime =
     }
   );
 
+const shouldShowLastMatch =
+  lastMatch &&
+  Date.now() -
+    new Date(
+      lastMatch.dateEvent
+    ).getTime() <
+    1000 * 60 * 60 * 48;
+
   return (
+
     <div className="overflow-hidden rounded-3xl bg-white p-6 text-[#7c9a92] shadow-2xl">
+        <p className="text-sm text-[#7c9a92]">
+            {match.strLeague}
+          </p>
+        {shouldShowLastMatch && (
+  <div className="mt-2 mb-4 border-b-1 border-[#7c9a92]/20 pb-4" >
+    <div className="text-2xl font-semibold  tracking-wide text-[#7c9a92]">
+      Senaste matchen
+    </div>
+
+    <div className="mt-2 flex items-center justify-between">
+      <div>
+        <div className="font-semibold">
+          {
+            lastMatch.strHomeTeam
+          }{" "}
+          vs{" "}
+          {
+            lastMatch.strAwayTeam
+          }
+        </div>
+
+        <div className="text-sm text-zinc-400">
+          {lastMatch.dateEvent}
+        </div>
+      </div>
+
+      <div className="text-2xl font-black">
+        {
+          lastMatch.intHomeScore
+        }
+        {" - "}
+        {
+          lastMatch.intAwayScore
+        }
+      </div>
+    </div>
+  </div>
+)}
+
       {/* HEADER */}
       <div className="mb-6 flex items-center justify-between">
         <div>
-            <p className="text-sm text-[#7c9a92]">
-            {match.strLeague}
-          </p>
+            
+          
           <h2 className="text-2xl font-bold mt-2">
             {isLive
               ? "Live match"
@@ -119,7 +178,6 @@ const formattedTime =
           </div>
         )}
       </div>
-
       {/* MATCH */}
       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-4">
         {/* HOME */}

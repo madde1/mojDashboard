@@ -88,6 +88,32 @@ app.get("/api/arsenal/match", async (_, res) => {
     });
   }
 });
+app.get(
+  "/api/arsenal/last-match",
+  async (_, res) => {
+    try {
+      const response = await fetch(
+        "https://www.thesportsdb.com/api/v1/json/3/eventslast.php?id=133604"
+      );
+
+      const data =
+        await response.json();
+
+      const match =
+        data.results?.[0];
+
+      if (!match) {
+        return res.json(null);
+      }
+
+      res.json(match);
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).json(null);
+    }
+  }
+);
 
 function getPremierLeagueSeason() {
   const now = new Date();
