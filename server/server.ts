@@ -223,8 +223,44 @@ const swedes =
   }
 });
 
+app.get(
+  "/api/pga-tour/next",
+  async (_, res) => {
+    try {
+      const response = await fetch(
+        "https://site.api.espn.com/apis/site/v2/sports/golf/pga/summary"
+      );
+
+      const data =
+        await response.json();
+
+      console.log(data);
+
+      res.json({
+        name:
+          data?.header
+            ?.season?.type?.name ||
+          "Next Tournament",
+
+        date:
+          data?.header?.competitions?.[0]
+            ?.date || null,
+
+        venue:
+          data?.header?.competitions?.[0]
+            ?.venue?.fullName ||
+          "",
+      });
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).json(null);
+    }
+  }
+);
+
 app.listen(3001, () => {
   console.log(
-    "Västtrafik server running on :3001"
+    "Server running on :3001"
   );
 });

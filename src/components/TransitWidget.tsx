@@ -38,23 +38,28 @@ const [departures, setDepartures] =
           destination:
             departure.serviceJourney.direction,
 
-          minutes: Math.max(
-            0,
-            Math.round(
-              (new Date(
-                departure.estimatedTime
-              ).getTime() -
-                Date.now()) /
-                60000
-            )
-          ),
+         minutes: Math.max(
+          0,
+          Math.round(
+            (
+              new Date(
+                departure.estimatedTime ||
+                departure.plannedTime
+              ).getTime() - Date.now()
+            ) / 60000
+          )
+        ),
         })
       );
 
     setDepartures(mappedDepartures);
   }
 
-  fetchDepartures();
+  const interval = setInterval(() => {
+    fetchDepartures();
+  }, 30000);
+
+  return () => clearInterval(interval);
 }, []);
 
   return (

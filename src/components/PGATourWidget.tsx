@@ -6,11 +6,24 @@ type Player = {
   };
 
   score: string;
-  status: {
-    type: {
-      shortDetail: string;
+
+  linescores?: {
+    value: number;
+  }[];
+
+  curatedRank?: {
+    current: number;
+  };
+
+  status?: {
+    type?: {
+      shortDetail?: string;
     };
   };
+
+  statistics?: {
+    displayValue: string;
+  }[];
 };
 
 type PGAData = {
@@ -25,7 +38,10 @@ export default function PGATourWidget() {
   const [data, setData] =
     useState<PGAData | null>(null);
 
+
+
   async function fetchPGA() {
+    
     try {
       const response = await fetch(
         "http://localhost:3001/api/pga-tour"
@@ -44,6 +60,39 @@ export default function PGATourWidget() {
   useEffect(() => {
     fetchPGA();
   }, []);
+
+ function getPosition(player: any) {
+  if (
+    player.curatedRank?.current
+  ) {
+    return `${player.curatedRank.current}`;
+  }
+
+  if (player.rank) {
+    return `${player.rank}`;
+  }
+
+  if (player.order) {
+    return `${player.order}`;
+  }
+
+  return "—";
+}
+
+function getRoundScore(player: Player) {
+  return (
+    player.linescores?.[
+      player.linescores.length - 1
+    ]?.value ?? "-"
+  );
+}
+
+function getThru(player: Player) {
+  return (
+    player.status?.type
+      ?.shortDetail || "-"
+  );
+}
 
   if (!data) {
     return (
@@ -64,6 +113,7 @@ export default function PGATourWidget() {
           PGA TOUR
         </h2>
       </div>
+      
 
       {/* TOP 5 */}
       <div className="mt-2">
@@ -76,24 +126,27 @@ export default function PGATourWidget() {
             (player, index) => (
               <div
                 key={`${player.athlete.displayName}-${index}`}
-                className="flex items-center justify-between rounded-2xl bg-[#7c9a92]/10 px-4 py-2"
+                className="grid grid-cols-[40px_1fr_50px_50px_50px] items-center rounded-2xl bg-[#7c9a92]/10 px-4 py-2"
               >
-                <div className="flex items-center gap-3">
-                  <span className="w-5 text-zinc-500">
-                    {index + 1}
-                  </span>
+                <div className="font-bold text-zinc-500">
+                    {getPosition(player)}
+                    </div>
 
-                  <span className="font-medium text-sm">
-                    {
-                      player.athlete
-                        .displayName
-                    }
-                  </span>
-                </div>
+                    <div className="font-medium">
+                    {player.athlete.displayName}
+                    </div>
 
-                <span className="text-sm font-bold">
-                  {player.score}
-                </span>
+                    <div className="text-center text-sm text-zinc-400">
+                    R{getRoundScore(player)}
+                    </div>
+
+                    <div className="text-center text-sm text-zinc-400">
+                    {getThru(player)}
+                    </div>
+
+                    <div className="text-right text-sm font-black">
+                    {player.score}
+                    </div>
               </div>
             )
           )}
@@ -111,18 +164,27 @@ export default function PGATourWidget() {
             (player, index) => (
               <div
                 key={`${player.athlete.displayName}-${index}`}
-                className="flex items-center justify-between rounded-2xl bg-yellow-500/10 px-4 py-3 ring-1 ring-yellow-500/20 mt-2"
+                className="grid grid-cols-[40px_1fr_50px_50px_50px] items-center rounded-2xl bg-yellow-500/10 px-4 py-3 ring-1 ring-yellow-500/20 mt-2"
               >
-                <span className="font-medium text-sm">
-                  {
-                    player.athlete
-                      .displayName
-                  }
-                </span>
+                 <div className="font-bold text-yellow-500">
+                    {getPosition(player)}
+                </div>
 
-                <span className="text-sm font-bold">
-                  {player.score}
-                </span>
+                <div className="font-medium text-sm">
+                    {player.athlete.displayName}
+                </div>
+
+                <div className="text-center text-sm text-zinc-300">
+                    R{getRoundScore(player)}
+                </div>
+
+                <div className="text-center text-sm text-zinc-300">
+                    {getThru(player)}
+                </div>
+
+                <div className="text-right text-sm font-black">
+                    {player.score}
+                </div>
               </div>
             )
           )}
