@@ -6,6 +6,7 @@ type Event = {
   time: string;
   allDay?: boolean;
   date: string;
+  category?: string;
 };
 
 export function TodayWidget() {
@@ -14,6 +15,7 @@ export function TodayWidget() {
   const [title, setTitle] = useState("");
   const [time, setTime] = useState("");
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+  const [category, setCategory] = useState("Familj");
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [events, setEvents] = useState<Event[]>(() => {
@@ -39,6 +41,7 @@ if (!title || (!allDay && !time)) return;
     time,
     allDay,
     date,
+    category,
   };
 
   setEvents((prev) => [...prev, newEvent]);
@@ -61,6 +64,8 @@ function handleEdit(event: Event) {
   setDate(event.date);
 
   setAllDay(event.allDay || false);
+  
+  setCategory(event.category || "Familj");
 
   setIsOpen(true);
 }
@@ -79,6 +84,7 @@ function updateEvent() {
             time,
             allDay,
             date,
+            category,
           }
         : event
     )
@@ -97,6 +103,8 @@ function resetForm() {
   setDate(selectedDate);
 
   setEditingEvent(null);
+
+  setCategory("Familj");
 
   setIsOpen(false);
 }
@@ -172,6 +180,14 @@ const upcomingEvents = [...events]
     }
   );
 }
+
+const categoryColors: Record<string, string> = {
+  Familj: "bg-[#7c9a92]",
+  Barn: "bg-blue-400",
+  Jobb: "bg-amber-400",
+  Fritid: "bg-pink-400",
+  Födelsedag: "bg-red-400",
+};
   return (
     <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 " >
       <div className="flex items-center justify-between">
@@ -195,6 +211,7 @@ const upcomingEvents = [...events]
         {sortedEvents.map((event) => (
           <div key={event.id} onClick={() => handleEdit(event)} className="cursor-pointer flex items-center justify-between rounded-2xl bg-stone-50 px-4 py-3">
               <div className="flex flex-row gap-2 items-center">
+            <div className={`h-2 w-2 rounded-full ${ categoryColors[event.category || "Familj"] }`}/>
             <span className="text-sm text-[#7c9a92]">
                 {event.allDay ? "Heldag" : event.time}
             </span>
@@ -241,6 +258,16 @@ const upcomingEvents = [...events]
             <h2 className="text-xl font-semibold text-[#7c9a92]">Ny aktivitet</h2>
             <div className="mt-6 space-y-4">
               <input type="text" placeholder="Titel" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full rounded-2xl bg-stone-100 px-4 py-3 outline-none" />
+              <div className="relative">
+               <select value={category} onChange={(e) => setCategory(e.target.value) } className="appearance-none w-full rounded-2xl bg-stone-100 px-4 py-3 outline-none text-zinc-700">
+                <option>Familj</option>
+                <option>Barn</option>
+                <option>Jobb</option>
+                <option>Fritid</option>
+                <option>Födelsedag</option>
+                </select>
+                <div className=" pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#7c9a92] ">▼</div>
+              </div>
               <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full rounded-2xl bg-stone-100 px-4 py-2 outline-none"/>
              {!allDay && ( <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="w-full rounded-2xl bg-stone-100 px-4 py-3 outline-none" />)}
               <label className="flex items-center gap-2">
@@ -248,14 +275,19 @@ const upcomingEvents = [...events]
               <span className="text-sm text-zinc-700">
                 Heldag
               </span>
-            </label>
+              </label>
+              
               <div className="flex justify-end gap-4">
                 <button onClick={() => setIsOpen(false)} className="cursor-pointer px-4 py-2 text-sm text-gray-500 bg-stone-100 rounded-full">Avbryt</button>
                 <button   onClick={() => editingEvent ? updateEvent() : addEvent()} className="cursor-pointer rounded-2xl bg-[#7c9a92] px-4 py-2 text-sm text-white">{editingEvent ? "Spara" : "Lägg till"}</button>
               </div>
               </div>
+              
               </div>
-            </div>)}
+            </div>
+          
+          )}
+            
 
             
     </section>
