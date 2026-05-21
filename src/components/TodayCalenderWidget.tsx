@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { CalendarDays, Plus, Trash2 } from "lucide-react";
 type Event = {
   id: number;
-  time: string;
   title: string;
+  time: string;
   allDay?: boolean;
+  date: string;
 };
 
 export function TodayWidget() {
@@ -13,15 +14,15 @@ export function TodayWidget() {
   const [title, setTitle] = useState("");
   const [time, setTime] = useState("");
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
-
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [events, setEvents] = useState<Event[]>(() => {
     const savedEvents = localStorage.getItem("events");
-    return savedEvents ? JSON.parse(savedEvents) : [
-      { id: 1, title: "BVC", time: "10:00" },
-      { id: 2, title: "Förskolan APT", time: "16:00" },
-    ];
-  }
-);
+      return savedEvents
+      ? JSON.parse(savedEvents)
+      : [];
+      }
+    );
 
 useEffect(() => {
   localStorage.setItem("events", JSON.stringify(events));
@@ -37,6 +38,7 @@ if (!title || (!allDay && !time)) return;
     title,
     time,
     allDay,
+    date,
   };
 
   setEvents((prev) => [...prev, newEvent]);
@@ -46,6 +48,7 @@ if (!title || (!allDay && !time)) return;
   setAllDay(false);
   setIsOpen(false);
 
+
 }
 
 function handleEdit(event: Event) {
@@ -54,6 +57,8 @@ function handleEdit(event: Event) {
   setTitle(event.title);
 
   setTime(event.time);
+  
+  setDate(event.date);
 
   setAllDay(event.allDay || false);
 
@@ -61,8 +66,9 @@ function handleEdit(event: Event) {
 }
 
 function updateEvent() {
-  if (!title || (!allDay && !time))
-    return;
+  if (!title) return;
+
+  if (!allDay && !time) return;
 
   setEvents((prev) =>
     prev.map((event) =>
@@ -72,6 +78,7 @@ function updateEvent() {
             title,
             time,
             allDay,
+            date,
           }
         : event
     )
@@ -87,6 +94,8 @@ function resetForm() {
 
   setAllDay(false);
 
+  setDate(selectedDate);
+
   setEditingEvent(null);
 
   setIsOpen(false);
@@ -98,7 +107,11 @@ function deleteEvent(id: number) {
   );
 }
 
-const sortedEvents = [...events].sort(
+const filteredEvents = events.filter(
+  (event) => event.date === selectedDate
+);
+
+const sortedEvents = [...filteredEvents].sort(
   (a, b) => {
     if (a.allDay && !b.allDay) return -1;
     if (!a.allDay && b.allDay) return 1;
@@ -117,6 +130,7 @@ const sortedEvents = [...events].sort(
           <h2 className="mt-1 text-2xl font-semibold tracking-tight text-[#7c9a92]">
             Idag
           </h2>
+          <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="mt-3 rounded-xl bg-stone-100 px-3 py-2 text-sm  text-[#7c9a92] outline-none "/>
         </div>
 
         <div className="rounded-2xl bg-stone-100 p-3">
@@ -150,7 +164,10 @@ const sortedEvents = [...events].sort(
       </div>
 
       <button
-        onClick={()=> setIsOpen(true)}
+        onClick={() => {
+          setDate(selectedDate);
+          setIsOpen(true);
+        }}
         className="cursor-pointer mt-6 flex w-full items-center justify-center gap-2 py-3 text-sm font-medium rounded-full text-white bg-[#7c9a92] transition-colors hover:bg-[#7c9a92]/70 ">
         <Plus className="h-4 w-4" />
         Lägg till aktivitet
@@ -162,16 +179,10 @@ const sortedEvents = [...events].sort(
             <h2 className="text-xl font-semibold text-[#7c9a92]">Ny aktivitet</h2>
             <div className="mt-6 space-y-4">
               <input type="text" placeholder="Titel" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full rounded-2xl bg-stone-100 px-4 py-3 outline-none" />
-              <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="w-full rounded-2xl bg-stone-100 px-4 py-3 outline-none" />
-             <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={allDay}
-                onChange={(e) =>
-                  setAllDay(e.target.checked)
-                }
-              />
-
+              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full rounded-2xl bg-stone-100 px-4 py-2 outline-none"/>
+             {!allDay && ( <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="w-full rounded-2xl bg-stone-100 px-4 py-3 outline-none" />)}
+              <label className="flex items-center gap-2">
+              <input type="checkbox" checked={allDay} onChange={(e) => {setAllDay(e.target.checked); if (e.target.checked) {setTime("");}}}/>
               <span className="text-sm text-zinc-700">
                 Heldag
               </span>
