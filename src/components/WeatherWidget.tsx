@@ -15,11 +15,22 @@ type WeatherData = {
   morningTemp: number;
   afternoonTemp: number;
   eveningTemp: number;
+
+  rainChance: number;
+
+  forecast: {
+    day: string;
+    temp: number;
+    weatherCode: number;
+  }[];
 };
 
 export function WeatherWidget() {
   const [weather, setWeather] =
     useState<WeatherData | null>(null);
+    
+    const [lastUpdated, setLastUpdated] =
+  useState("");
 
   const [loading, setLoading] = useState(true);
 
@@ -30,8 +41,7 @@ export function WeatherWidget() {
         const lon = 11.9746;
 
         const response = await fetch(
-          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&hourly=temperature_2m&timezone=auto`
-        );
+`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code&hourly=temperature_2m,precipitation_probability&timezone=auto`       );
 
         const data = await response.json();
 
@@ -62,7 +72,45 @@ export function WeatherWidget() {
           eveningTemp: Math.round(
             data.hourly.temperature_2m[20]
           ),
+          
+          rainChance:
+          data.hourly.precipitation_probability[14],
+
+          forecast: data.daily.time
+  .slice(1, 8)
+  .map(
+    (
+      date: string,
+      index: number
+    ) => ({
+      day: new Date(date)
+        .toLocaleDateString("sv-SE", {
+          weekday: "short",
+        })
+        .replace(".", ""),
+
+      temp: Math.round(
+        data.daily.temperature_2m_max[
+          index + 1
+        ]
+      ),
+
+      weatherCode:
+        data.daily.weather_code[
+          index + 1
+        ],
+    })
+  ),
+          
         });
+       
+        setLastUpdated(
+          new Date().toLocaleTimeString("sv-SE", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })
+        );
+
       } catch (error) {
         console.error(error);
       } finally {
@@ -71,6 +119,12 @@ export function WeatherWidget() {
     }
 
     fetchWeather();
+
+      const interval = setInterval(() => {
+    fetchWeather();
+  }, 1000 * 60 * 10);
+
+  return () => clearInterval(interval);
   }, []);
 
   function getWeatherIcon(code: number) {
@@ -152,17 +206,29 @@ export function WeatherWidget() {
             {weather.currentTemp}°
           </h2>
 
-          <p className="mt-2 text-[#7c9a92]">
-            {getWeatherLabel(weather.weatherCode)}
-          </p>
-        </div>
 
-        <div className="rounded-2xl bg-stone-100 p-3">
-          {getWeatherIcon(weather.weatherCode)}
+              <p className="text-[#7c9a92] mt-2">
+                {getWeatherLabel(weather.weatherCode)}
+              </p>
+             
+
         </div>
+        <div className=" flex flex-col justify-between h-full items-end gap-2">
+
+        <div className="mt-4rounded-2xl bg-stone-100 p-3">
+          
+          {getWeatherIcon(weather.weatherCode)}
+          
+        </div>
+         <p className="mt-4 text-sm text-[#7c9a92]">
+              ☔ {weather.rainChance}% risk för regn
+            </p>
+        </div>
+       
       </div>
 
-      <div className="mt-6 flex items-center justify-between gap-4">
+      <div className="mt-4 flex items-center justify-between gap-4">
+        
         <div className="flex items-center gap-4 text-sm text-[#7c9a92]">
           <span>⬆ {weather.maxTemp}°</span>
 
@@ -179,6 +245,28 @@ export function WeatherWidget() {
         <p className="text-sm leading-relaxed text-zinc-700">Eftermiddag {weather.afternoonTemp}°</p>
         <p className="text-sm leading-relaxed text-zinc-700">Kväll {weather.eveningTemp}°</p>
       </div>
+<div className="mt-4 flex items-center gap-4 overflow-x-auto border-t border-stone-100 pt-4">
+  {weather.forecast.map((day) => (
+    <div
+      key={day.day}
+      className="flex flex-col w-full items-center gap-2"
+    >
+      <p className="text-xs text-zinc-400 capitalize">
+        {day.day}
+      </p>
+
+      {getWeatherIcon(day.weatherCode)}
+
+      <p className="text-sm text-zinc-700">
+        {day.temp}°
+      </p>
+    </div>
+  ))}
+</div>
+      
+      <p className="mt-4 text-xs text-zinc-400">
+  Uppdaterad {lastUpdated}
+</p>
     </section>
   );
 }
