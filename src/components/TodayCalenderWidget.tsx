@@ -119,6 +119,59 @@ const sortedEvents = [...filteredEvents].sort(
     return a.time.localeCompare(b.time);
   }
 );
+
+const upcomingEvents = [...events]
+  .filter((event) => {
+    return event.date >= selectedDate;
+  })
+  .sort((a, b) => {
+    const dateCompare =
+      a.date.localeCompare(b.date);
+
+    if (dateCompare !== 0)
+      return dateCompare;
+
+    return a.time.localeCompare(b.time);
+  })
+  .slice(0, 3);
+
+  function formatUpcomingDate(date: string) {
+  const today = new Date();
+
+  today.setHours(0, 0, 0, 0);
+
+  const eventDate = new Date(date);
+
+  eventDate.setHours(0, 0, 0, 0);
+
+  const diffInDays =
+    (eventDate.getTime() - today.getTime()) /
+    (1000 * 60 * 60 * 24);
+
+  if (diffInDays === 0) {
+    return "Idag";
+  }
+
+  if (diffInDays === 1) {
+    return "Imorgon";
+  }
+
+  if (diffInDays < 7) {
+    return eventDate
+      .toLocaleDateString("sv-SE", {
+        weekday: "short",
+      })
+      .replace(".", "");
+  }
+
+  return eventDate.toLocaleDateString(
+    "sv-SE",
+    {
+      day: "numeric",
+      month: "short",
+    }
+  );
+}
   return (
     <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 " >
       <div className="flex items-center justify-between">
@@ -140,10 +193,7 @@ const sortedEvents = [...filteredEvents].sort(
 
       <div className="mt-6 space-y-4">
         {sortedEvents.map((event) => (
-          <div
-            key={event.id}
-            onClick={() => handleEdit(event)}
-            className="cursor-pointer flex items-center justify-between rounded-2xl bg-stone-50 px-4 py-3">
+          <div key={event.id} onClick={() => handleEdit(event)} className="cursor-pointer flex items-center justify-between rounded-2xl bg-stone-50 px-4 py-3">
               <div className="flex flex-row gap-2 items-center">
             <span className="text-sm text-[#7c9a92]">
                 {event.allDay ? "Heldag" : event.time}
@@ -153,25 +203,37 @@ const sortedEvents = [...filteredEvents].sort(
               {event.title}
             </span>
               </div>
-              <button
-                onClick={(e) => {e.stopPropagation();
-                deleteEvent(event.id);}}
-              className="rounded-lg p-1 text-zinc-400 transition-colors hover:bg-stone-200 hover:text-zinc-600 cursor-pointer ">
+              <button onClick={(e) => {e.stopPropagation(); deleteEvent(event.id);}} className="rounded-lg p-1 text-zinc-400 transition-colors hover:bg-stone-200 hover:text-zinc-600 cursor-pointer ">
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
         ))}
       </div>
 
-      <button
-        onClick={() => {
-          setDate(selectedDate);
-          setIsOpen(true);
-        }}
-        className="cursor-pointer mt-6 flex w-full items-center justify-center gap-2 py-3 text-sm font-medium rounded-full text-white bg-[#7c9a92] transition-colors hover:bg-[#7c9a92]/70 ">
+      <button onClick={() => { setDate(selectedDate); setIsOpen(true);}} className="cursor-pointer mt-6 flex w-full items-center justify-center gap-2 py-3 text-sm font-medium rounded-full text-white bg-[#7c9a92] transition-colors hover:bg-[#7c9a92]/70 ">
         <Plus className="h-4 w-4" />
         Lägg till aktivitet
       </button>
+
+      <div className="mt-4 border-t border-stone-100 pt-4">
+        <p className="text-xs uppercase tracking-wide text-zinc-400">
+          Kommande
+        </p>
+
+        <div className="mt-2 space-y-1">
+          {upcomingEvents.map((event) => (
+            <div key={event.id} className="flex items-center justify-between text-sm">
+              <span className="truncate text-zinc-700">
+                {event.title}
+              </span>
+
+              <span className="ml-4 text-xs text-zinc-400">
+              {formatUpcomingDate(event.date)}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {isOpen && (
         <div className="fixed inset-0 z-50 items-center justify-center flex bg-black/50">
@@ -194,6 +256,8 @@ const sortedEvents = [...filteredEvents].sort(
               </div>
               </div>
             </div>)}
+
+            
     </section>
   );
 }
