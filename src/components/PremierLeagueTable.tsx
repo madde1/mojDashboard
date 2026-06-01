@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaFutbol } from "react-icons/fa";
 
 type Team = {
   idTeam: string;
@@ -76,7 +77,11 @@ export default function PremierLeagueTableWidget() {
           <h2 className="text-2xl font-bold mt-2">
             Premier League
           </h2>
+          
         </div>
+        <div className="rounded-2xl bg-stone-100 p-3">
+          <FaFutbol size={24} />
+       </div>
       </div>
 
       {/* TABLE HEADER */}

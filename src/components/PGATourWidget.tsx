@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { GiGolfFlag } from "react-icons/gi";
 
 type Player = {
   athlete: {
@@ -105,13 +106,19 @@ function getThru(player: Player) {
   return (
     <div className="rounded-3xl  bg-white p-6 text-[#7c9a92] shadow-2xl">
       {/* HEADER */}
-      <div className="">
+      <div className="mb-6 flex items-center justify-between">
+        <div>
         <p className="text-sm text-[#7c9a92]">
           {data.tournament}
         </p>
         <h2 className="text-2xl mt-2 font-bold">
           PGA TOUR
         </h2>
+</div>
+        <div className="rounded-2xl bg-stone-100 p-3">
+          <GiGolfFlag size={24} />
+        </div>
+     
       </div>
       
 

@@ -2,10 +2,13 @@ import { GreetingCard } from './components/GreetingWidget'
 import { WeatherWidget } from './components/WeatherWidget'
 import { TodayWidget } from './components/TodayCalenderWidget'
 import { TransitWidget } from './components/TransitWidget'
+import { MealWidget } from './components/MealWidget'
 import  ArsenalMatchWidget  from './components/ArsenalMatchWidget'
 import PremierLeagueTableWidget from './components/PremierLeagueTable'
 import PGATourWidget from './components/PGATourWidget'
+
 import Footer from './components/Footer'
+
 
 
 function App() {
@@ -19,6 +22,7 @@ function App() {
           <WeatherWidget />
           <TodayWidget />
           <TransitWidget />
+          <MealWidget />
           <ArsenalMatchWidget />
           <PremierLeagueTableWidget />
           <PGATourWidget />

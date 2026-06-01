@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FaFutbol } from "react-icons/fa";
 
 type Match = {
   strHomeTeam: string;
@@ -107,28 +108,30 @@ const formattedTime =
     }
   );
 
-const shouldShowLastMatch =
-  lastMatch &&
-  Date.now() -
-    new Date(
-      lastMatch.dateEvent
-    ).getTime() <
-    1000 * 60 * 60 * 48;
+
 
   return (
 
     <div className="overflow-hidden rounded-3xl bg-white p-6 text-[#7c9a92] shadow-2xl">
-        <p className="text-sm text-[#7c9a92]">
-            {match.strLeague}
+          <div className="flex items-center justify-between">
+<p className="text-sm text-[#7c9a92]">
+            {lastMatch.strLeague}
           </p>
-        {shouldShowLastMatch && (
+          <div className="rounded-2xl bg-stone-100 p-3">
+  <FaFutbol size={24} />
+          </div>
+          </div>
+       
+        
   <div className="mt-2 mb-4 border-b-1 border-[#7c9a92]/20 pb-4" >
+
     <div className="text-2xl font-semibold  tracking-wide text-[#7c9a92]">
       Senaste matchen
     </div>
 
     <div className="mt-2 flex items-center justify-between">
       <div>
+       
         <div className="font-semibold">
           {
             lastMatch.strHomeTeam
@@ -155,13 +158,15 @@ const shouldShowLastMatch =
       </div>
     </div>
   </div>
-)}
+
 
       {/* HEADER */}
       <div className="mb-6 flex items-center justify-between">
         <div>
             
-          
+           <p className="text-sm text-[#7c9a92]">
+            {match.strLeague}
+          </p>
           <h2 className="text-2xl font-bold mt-2">
             {isLive
               ? "Live match"

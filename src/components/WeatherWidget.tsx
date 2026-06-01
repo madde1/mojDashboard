@@ -215,7 +215,7 @@ export function WeatherWidget() {
         </div>
         <div className=" flex flex-col justify-between h-full items-end gap-2">
 
-        <div className="mt-4rounded-2xl bg-stone-100 p-3">
+        <div className=" rounded-2xl bg-stone-100 p-3">
           
           {getWeatherIcon(weather.weatherCode)}
           

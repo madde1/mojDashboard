@@ -17,10 +17,9 @@ type Departure = {
 };
 
 export function TransitWidget() {
-const [departures, setDepartures] =
-  useState<Departure[]>([]);
+const [departures, setDepartures] = useState<Departure[]>([]);
   
-  useEffect(() => {
+useEffect(() => {
   async function fetchDepartures() {
     const response = await fetch(
       "http://localhost:3001/departures"
@@ -29,7 +28,7 @@ const [departures, setDepartures] =
     const data = await response.json();
 
     const mappedDepartures =
-      data.results.slice(0, 3).map(
+      data.results.slice(0, 5).map(
         (departure: any) => ({
           line:
             departure.serviceJourney.line
@@ -38,22 +37,24 @@ const [departures, setDepartures] =
           destination:
             departure.serviceJourney.direction,
 
-         minutes: Math.max(
-          0,
-          Math.round(
-            (
-              new Date(
-                departure.estimatedTime ||
-                departure.plannedTime
-              ).getTime() - Date.now()
-            ) / 60000
-          )
-        ),
+          minutes: Math.max(
+            0,
+            Math.round(
+              (
+                new Date(
+                  departure.estimatedTime ||
+                    departure.plannedTime
+                ).getTime() - Date.now()
+              ) / 60000
+            )
+          ),
         })
       );
 
     setDepartures(mappedDepartures);
   }
+
+  fetchDepartures();
 
   const interval = setInterval(() => {
     fetchDepartures();
@@ -63,16 +64,7 @@ const [departures, setDepartures] =
 }, []);
 
   return (
-    <section
-      className="
-        rounded-3xl
-        bg-white
-        p-6
-        shadow-sm
-        ring-1
-        ring-black/5
-      "
-    >
+    <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 ">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm text-[#7c9a92]">
@@ -93,33 +85,9 @@ const [departures, setDepartures] =
         {departures.map((departure) => (
           <div
             key={`${departure.line}-${departure.minutes}`}
-            className="
-              flex
-              items-center
-              justify-between
-              rounded-2xl
-              bg-stone-50
-              px-4
-              py-3
-            "
-          >
+            className="flex items-center justify-between rounded-2xl bg-stone-50 px-4 py-3 ">
             <div className="flex items-center gap-3">
-              <div
-                className={`
-          flex
-          h-10
-          w-10
-          items-center
-          justify-center
-          rounded-full
-          text-sm
-          font-semibold
-          ${
-            lineColors[departure.line] ||
-            "bg-[#7c9a92]"
-          }
-        `}
-              >
+              <div className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${lineColors[departure.line] ||  "bg-[#7c9a92]" } `} >
                 {departure.line}
               </div>
 
@@ -138,9 +106,7 @@ const [departures, setDepartures] =
               <Clock3 className="h-4 w-4" />
 
               <span className="text-sm font-medium">
-                {departure.minutes <= 1
-  ? "Nu"
-  : `${departure.minutes} min`}
+                {departure.minutes <= 1 ? "Nu" : `${departure.minutes} min`}
               </span>
             </div>
           </div>

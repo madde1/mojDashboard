@@ -190,7 +190,7 @@ const categoryColors: Record<string, string> = {
 };
   return (
     <section className="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-black/5 " >
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <div>
           <p className="text-sm text-[#7c9a92]">
             Kalender

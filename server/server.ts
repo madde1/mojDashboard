@@ -51,7 +51,7 @@ app.get("/departures", async (_, res) => {
    const stopId = "9021014005110000";
 
     const response = await fetch(
-      `https://ext-api.vasttrafik.se/pr/v4/stop-areas/${stopId}/departures?limit=6`,
+      `https://ext-api.vasttrafik.se/pr/v4/stop-areas/${stopId}/departures?limit=5`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
