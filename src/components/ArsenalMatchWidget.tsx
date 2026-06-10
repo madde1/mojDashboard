@@ -112,19 +112,17 @@ const formattedTime =
 
   return (
 
-    <div className="overflow-hidden rounded-3xl bg-white p-6 text-[#7c9a92] shadow-2xl">
-          <div className="flex items-center justify-between">
-<p className="text-sm text-[#7c9a92]">
-            {lastMatch.strLeague}
-          </p>
-          <div className="rounded-2xl bg-stone-100 p-3">
-  <FaFutbol size={24} />
-          </div>
-          </div>
-       
+<div className="overflow-hidden rounded-3xl bg-white p-6 text-[#7c9a92] shadow-2xl">
+  <div className="flex items-center justify-between">
+    <p className="text-sm text-[#7c9a92]">
+      {lastMatch.strLeague}
+    </p>   
+    <div className="rounded-2xl bg-stone-100 p-3">
+          <FaFutbol size={24} />
+    </div>  
+  </div>
         
   <div className="mt-2 mb-4 border-b-1 border-[#7c9a92]/20 pb-4" >
-
     <div className="text-2xl font-semibold  tracking-wide text-[#7c9a92]">
       Senaste matchen
     </div>

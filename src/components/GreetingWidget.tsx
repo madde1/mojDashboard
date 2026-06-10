@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import WorldCupHero from "./WorldCupHero";
 
 export function GreetingCard() {
   const greeting = useMemo(() => {
@@ -19,14 +20,28 @@ export function GreetingCard() {
   }, []);
 
   return (
-    <section className="border border-white/10 bg-white p-6 shadow-sm ">
-      <p className="text-sm text-zinc-700">
-        {formattedDate}
-      </p>
+    <section className="border border-white/10 bg-[#030730] p-6 shadow-sm ">
+      <div className="grid md:grid-cols-3">
+        
+      <div className="flex flex-col-reverse md:flex-col justify-between">  
+        <div>
+            <h1 className="mt-2 text-2xl font-black text-yellow-700"> FIFA WORLD CUP - 2026 </h1>
+        </div>
+      <div>
+        <p className="text-sm text-white mt-2 ">
+          {formattedDate}
+        </p>
 
-      <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[#7c9a92]">
-        {greeting} 👋
-      </h1>
+        <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white">
+          {greeting} 👋
+        </h1>
+      </div>
+      </div>
+      <div className="col-span-2">
+         <WorldCupHero></WorldCupHero>
+         </div>
+</div>
+   
     </section>
   );
 }

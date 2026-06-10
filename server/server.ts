@@ -71,6 +71,70 @@ app.get("/departures", async (_, res) => {
   }
 });
 
+/**FOTBOLLS VM - Kan tas bort när fotbollsvm är över.  */
+app.get("/api/worldcup", async (_, res) => {
+  try {
+    const worldCupStart =
+      new Date("2026-06-11");
+
+    const now = new Date();
+
+    // Före VM
+    if (now < worldCupStart) {
+      const response =
+        await fetch(
+          "https://www.thesportsdb.com/api/v1/json/3/eventsnextleague.php?id=4429"
+        );
+
+      const data =
+        await response.json();
+
+      return res.json({
+        mode: "next",
+        matches:
+          data.events?.slice(
+            0,
+            5
+          ) || [],
+      });
+    }
+
+    // Under VM
+    const today = new Date()
+      .toISOString()
+      .split("T")[0];
+
+    const response =
+      await fetch(
+        `https://www.thesportsdb.com/api/v1/json/3/eventsday.php?d=${today}&s=Soccer`
+      );
+
+    const data =
+      await response.json();
+
+    const worldCupMatches =
+      data.events?.filter(
+        (match: any) =>
+          match.idLeague ===
+          "4429"
+      ) || [];
+
+    return res.json({
+      mode: "today",
+      matches:
+        worldCupMatches,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      error:
+        "Could not fetch World Cup",
+    });
+  }
+});
+
+/**Arsenal Games */
 app.get("/api/arsenal/match", async (_, res) => {
   try {
     const response = await fetch(
@@ -88,6 +152,8 @@ app.get("/api/arsenal/match", async (_, res) => {
     });
   }
 });
+
+/** Arsenal last game */
 app.get(
   "/api/arsenal/last-match",
   async (_, res) => {
@@ -115,6 +181,7 @@ app.get(
   }
 );
 
+/** Premier league season */
 function getPremierLeagueSeason() {
   const now = new Date();
 
