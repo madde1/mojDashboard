@@ -22,7 +22,7 @@ const [departures, setDepartures] = useState<Departure[]>([]);
 useEffect(() => {
   async function fetchDepartures() {
     const response = await fetch(
-      "http://localhost:3001/departures"
+      "https://moj-dashboard-red.vercel.app/departures"
     );
 
     const data = await response.json();
