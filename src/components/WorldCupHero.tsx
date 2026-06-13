@@ -18,7 +18,8 @@ export default function WorldCupHero() {
 
   async function fetchMatches() {
     const response = await fetch(
-      "http://localhost:3001/api/worldcup"
+     // "http://localhost:3001/api/worldcup"
+      "https://moj-dashboard-red.vercel.app/api/worldcup"
     );
 
     const data = await response.json();

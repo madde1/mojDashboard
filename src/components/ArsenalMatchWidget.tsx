@@ -33,7 +33,8 @@ export default function ArsenalMatchWidget() {
   async function fetchMatch() {
     try {
         const lastResponse = await fetch(
-            "http://localhost:3001/api/arsenal/last-match"
+           // "http://localhost:3001/api/arsenal/last-match"
+            "https://moj-dashboard-red.vercel.app/api/arsenal/last-match"
             );
 
             const lastData =
@@ -41,7 +42,8 @@ export default function ArsenalMatchWidget() {
 
             setLastMatch(lastData);
       const response = await fetch(
-        "http://localhost:3001/api/arsenal/match"
+        //"http://localhost:3001/api/arsenal/match"
+        "https://moj-dashboard-red.vercel.app/api/arsenal/match"
       );
 
       const data = await response.json();
