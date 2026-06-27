@@ -31,7 +31,7 @@ export default function WorldCupHero() {
 
   return (
     <div className=" flex flex-col md:flex-row justify-between md:items-center mt-6 md:mt-0">
-        <div className="w-[70%]">
+        <div className="w-full lg:w-[70%]">
           
 
       <div className="grid gap-3 md:grid-cols-3 mt-2 ">

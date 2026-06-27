@@ -86,7 +86,7 @@ export default function PremierLeagueTableWidget() {
       </div>
 
       {/* TABLE HEADER */}
-      <div className="mb-2 grid grid-cols-[40px_1fr_40px_40px_40px_50px] items-center border-b border-zinc-800 pb-2 text-xs uppercase tracking-wide text-zinc-500">
+      <div className="mb-2 grid grid-cols-[30px_1fr_30px_35px] lg:grid-cols-[40px_1fr_40px_40px_40px_50px] items-center border-b border-zinc-800 pb-2 text-xs uppercase tracking-wide text-zinc-500">
         <div>#</div>
 
         <div>Team</div>
