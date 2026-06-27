@@ -28,7 +28,7 @@ export default function WorldCupWidget() {
       const response =
         await fetch(
           //"http://localhost:3001/api/worldcup"
-           "https://moj-dashboard-red.vercel.app/api/worldcup"
+           "/api/worldcup"
         );
 
       const data =

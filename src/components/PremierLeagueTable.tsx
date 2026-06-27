@@ -34,7 +34,7 @@ export default function PremierLeagueTableWidget() {
     try {
       const response = await fetch(
        // "http://localhost:3001/api/premier-league/table"
-        "https://moj-dashboard-red.vercel.app/api/premier-league/table"
+        "/api/premier-league/table"
       );
 
       const data = await response.json();

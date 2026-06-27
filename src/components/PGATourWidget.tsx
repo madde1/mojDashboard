@@ -45,7 +45,7 @@ export default function PGATourWidget() {
     
     try {
       const response = await fetch(
-        "http://localhost:3001/api/pga-tour"
+        "/api/pga-tour/index"
       );
 
       const data = await response.json();
