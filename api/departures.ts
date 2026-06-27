@@ -29,7 +29,7 @@ async function getAccessToken() {
 }
 
 export default async function handler(
-  req: VercelRequest,
+  _req: VercelRequest,
   res: VercelResponse
 ) {
   try {
