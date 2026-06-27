@@ -124,15 +124,7 @@ export default function WorldCupWidget() {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    {match.strHomeTeamBadge && (
-                      <img
-                        src={
-                          match.strHomeTeamBadge
-                        }
-                        alt=""
-                        className="h-8 w-8"
-                      />
-                    )}
+               
 
                     <span className="font-medium">
                       {
@@ -152,15 +144,6 @@ export default function WorldCupWidget() {
                       }
                     </span>
 
-                    {match.strAwayTeamBadge && (
-                      <img
-                        src={
-                          match.strAwayTeamBadge
-                        }
-                        alt=""
-                        className="h-8 w-8"
-                      />
-                    )}
                   </div>
                 </div>
 
