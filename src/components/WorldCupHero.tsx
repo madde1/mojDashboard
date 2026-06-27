@@ -66,7 +66,7 @@ export default function WorldCupHero() {
         ))}
       </div>
 </div>
-      <div>
+      <div className="mx-auto lg:mx-0">
       <img src="./2026_FIFA_World_Cup_emblem.svg.webp" alt="FIFA World Cup" className="h-[150px] mt-4 md:mt-0 rounded-2xl bg-white/10 text-white p-4 backdrop-blur"/>
       </div>
     </div>
