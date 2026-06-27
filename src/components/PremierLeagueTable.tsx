@@ -117,7 +117,7 @@ export default function PremierLeagueTableWidget() {
           return (
             <div
             key={`${team.strTeam}-${index}`}
-              className={`grid grid-cols-[40px_1fr_40px_40px_40px_50px] items-center rounded-2xl px-3 py-3 transition-all ${
+              className={`grid grid grid-cols-[30px_1fr_30px_35px] lg:grid-cols-[40px_1fr_40px_40px_40px_50px] items-center rounded-2xl px-3 py-3 transition-all ${
                 isArsenal
                   ? "bg-red-500/15 ring-1 ring-red-500/30"
                   : "bg-[#7c9a92]/50"
