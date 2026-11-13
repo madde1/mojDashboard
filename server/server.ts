@@ -71,7 +71,7 @@ app.get("/departures", async (_, res) => {
   }
 });
 
-/**FOTBOLLS VM - Kan tas bort när fotbollsvm är över.  */
+/**FOTBOLLS VM - Kan tas bort när fotbollsvm är över.  
 app.get("/api/worldcup", async (_, res) => {
   try {
     const worldCupStart =
@@ -133,7 +133,7 @@ app.get("/api/worldcup", async (_, res) => {
     });
   }
 });
-
+ */
 /**Arsenal Games */
 app.get("/api/arsenal/match", async (_, res) => {
   try {
