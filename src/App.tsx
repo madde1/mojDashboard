@@ -6,7 +6,7 @@ import { MealWidget } from './components/MealWidget'
 import  ArsenalMatchWidget  from './components/ArsenalMatchWidget'
 import PremierLeagueTableWidget from './components/PremierLeagueTable'
 import PGATourWidget from './components/PGATourWidget'
-import WorldCupWidget from './components/WorldCupWidget'
+//import WorldCupWidget from './components/WorldCupWidget'
 
 import Footer from './components/Footer'
 
@@ -27,7 +27,6 @@ function App() {
           <ArsenalMatchWidget />
           <PremierLeagueTableWidget />
           <PGATourWidget />
-          <WorldCupWidget />
         </div>
  
     <Footer />
