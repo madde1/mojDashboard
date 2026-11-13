@@ -138,7 +138,7 @@ app.get("/api/worldcup", async (_, res) => {
 app.get("/api/arsenal/match", async (_, res) => {
   try {
     const response = await fetch(
-      "https://www.thesportsdb.com/api/v1/json/3/eventsnext.php?id=133604"
+      "https://www.thesportsdb.com/api/v1/json/123/eventsnext.php?id=133604"
     );
 
     const data = await response.json();
@@ -159,7 +159,7 @@ app.get(
   async (_, res) => {
     try {
       const response = await fetch(
-        "https://www.thesportsdb.com/api/v1/json/3/eventslast.php?id=133604"
+        "https://www.thesportsdb.com/api/v1/json/123/eventslast.php?id=133604"
       );
 
       const data =
@@ -204,7 +204,7 @@ app.get(
   async (_, res) => {
     try {
       const response = await fetch(
-        `https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=4328&s=${season}`
+        `https://www.thesportsdb.com/api/v1/json/123/lookuptable.php?l=4328&s=${season}`
       );
 
       const data =
