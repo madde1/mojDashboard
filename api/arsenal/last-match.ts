@@ -6,7 +6,7 @@ export default async function handler(
 ) {
   try {
     const response = await fetch(
-      "https://www.thesportsdb.com/api/v1/json/3/eventslast.php?id=133604"
+      "https://www.thesportsdb.com/api/v1/json/123/eventslast.php?id=133604"
     );
 
     const data = await response.json();
